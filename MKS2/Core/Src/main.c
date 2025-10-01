@@ -58,6 +58,35 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void button(void){
+	static uint32_t old_s2;
+	static uint32_t off_time;
+
+	uint32_t new_s2 = LL_GPIO_IsInputPinSet(S2_GPIO_Port, S2_Pin);
+	if (old_s2 && !new_s2) { // falling edge
+		off_time = Tick + LED_TIME_SHORT;
+		LL_GPIO_SetOutputPin(LED2_GPIO_Port, LED2_Pin);
+	}
+	old_s2 = new_s2;
+
+	if (Tick > off_time) {
+		LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin);
+	}
+
+}
+void button2(void){
+	static uint32_t old_s1;
+	static uint32_t off_time2;
+
+	uint32_t new_s1 = LL_GPIO_IsInputPinSet(S1_GPIO_Port, S1_Pin);
+	if (old_s1 && !new_s1) { // falling edge
+		off_time2 = Tick + LED_TIME_LONG;
+		LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin);
+	}
+	old_s1 = new_s1;
+
+	if (Tick > off_time2) {
+		LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin);
+	}
 
 }
 void blink(void) {
@@ -112,7 +141,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  blink();
+	  button();
+	  button2();
 
     /* USER CODE END WHILE */
 

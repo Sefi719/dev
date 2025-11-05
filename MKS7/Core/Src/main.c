@@ -464,7 +464,6 @@ void StartAcceleroTask(void const * argument)
 				printf("X=%d  Y=%d  Z=%d\r\n", raw_acc[0], raw_acc[1], raw_acc[2]);
 				}
 			print_timer++;
-			osDelay(50);
 		}
 
 	}
